@@ -1,7 +1,20 @@
+import Axios from 'axios'
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import { GetStaticProps } from 'next'
 
-export default function Home() {
+export const getStaticProps: GetStaticProps = async () => {
+  const {data:posts} = await Axios.get('https://api.wp-kyoto.net/wp-json/wp/v2/posts?per_page=100')
+  return {
+    props: {
+      posts
+    }
+  }
+}
+
+export default function Home({posts}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,6 +26,18 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        <ul>
+        {posts ? posts.map(post => {
+          
+          return (
+            <li key={post.id}>
+              <Link href={String(post.id)}>
+                <span dangerouslySetInnerHTML={{__html: post.title.rendered}} />
+              </Link>
+            </li>
+          )
+        }): null}
+        </ul>
 
         <p className={styles.description}>
           Get started by editing{' '}
