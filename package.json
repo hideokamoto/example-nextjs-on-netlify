@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "postbuild": "next-on-netlify"
   },
   "dependencies": {
     "next": "10.0.1",
@@ -15,6 +16,8 @@
   "devDependencies": {
     "@types/node": "^14.14.6",
     "@types/react": "^16.9.55",
+    "netlify-plugin-next-dynamic": "^1.0.9",
+    "next-on-netlify": "^2.6.3",
     "typescript": "^4.0.5"
   }
 }
