@@ -13,6 +13,7 @@ export const Page: NextPage<{
             rendered: string;
         }
     }
+    buildAt: string;
 }> = (props) => {
     const router = useRouter()
   
@@ -28,6 +29,7 @@ export const Page: NextPage<{
             <h1 className={styles.title} dangerouslySetInnerHTML={{
                 __html: props.post.title.rendered
             }} />
+            <b>{props.buildAt}</b>
                 <div className={styles.card} dangerouslySetInnerHTML={{
                     __html: props.post.content.rendered
                 }} />
@@ -54,8 +56,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     const {data: post} = await Axios.get('https://api.wp-kyoto.net/wp-json/wp/v2/posts/' + id)
     return {
         props: {
-            post
-        }
+            post,
+            buildAt: new Date().toISOString()
+        },
+        revalidate: 10
     }
 }
 export default Page
